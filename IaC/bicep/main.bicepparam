@@ -1,0 +1,16 @@
+using 'main.bicep'
+
+// TODO before deploying: Update the following parameters.
+param environmentName = 'dev'
+param location = 'australiaeast' 
+param resourceGroupName = 'rg-sbflexcons-aue'
+param flexConsumptionFunctionAppPlanName = 'plan-sbflexcons-aue'
+param consumptionFunctionAppPlanName = 'plan-sbcons-aue'
+param flexConsumptionFunctionAppName = 'func-sbflexcons-aue'
+param consumptionFunctionAppName = 'func-sbcons-aue'
+param flexConsumptionStorageAccountName = 'stsbflexconsaue'
+param consumptionStorageAccountName = 'stsbconsaue'
+param appInsightsLocation = 'australiaeast'
+param logAnalyticsName = 'log-sbflexcons-aue'
+param applicationInsightsName = 'appi-sbflexcons-aue'
+param serviceBusNamespaceName = 'sb-sbflexcons-aue'
