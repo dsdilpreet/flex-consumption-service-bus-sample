@@ -4,7 +4,6 @@ param location string = resourceGroup().location
 param storageAccountName string
 param deploymentStorageContainerName string
 param applicationInsightsName string
-param serviceBusNamespaceName string
 param tags object = {}
 param functionAppRuntime string = 'dotnet-isolated'
 param functionAppRuntimeVersion string = '8.0'
@@ -18,10 +17,6 @@ resource storage 'Microsoft.Storage/storageAccounts@2023-01-01' existing = {
 resource appInsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: applicationInsightsName
 }
-
-// resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2021-06-01-preview' existing = {
-//   name: serviceBusNamespaceName
-// }
 
 resource flexFuncPlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: planName
@@ -57,10 +52,6 @@ resource flexFuncApp 'Microsoft.Web/sites@2023-12-01' = {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
           value: appInsights.properties.ConnectionString
         }
-        // {
-        //   name: 'ServiceBusConnectionString'
-        //   value: 'Endpoint=sb://${serviceBusNamespace.name}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${listKeys(serviceBusNamespace.id, '2017-04-01').primaryKey}'
-        // }
       ]
     }
     functionAppConfig: {

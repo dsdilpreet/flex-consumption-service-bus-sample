@@ -51,14 +51,14 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: !empty(resourceGroupName) ? resourceGroupName : '${abbrs.resourcesResourceGroups}${environmentName}'
 }
 
-// module serviceBus 'core/servicebus/servicebus.bicep' = {
-//   name: 'serviceBus'
-//   scope: rg
-//   params: {
-//     location: location
-//     serviceBusNamespaceName: serviceBusNamespaceName
-//   }
-// }
+module serviceBus 'core/servicebus/servicebus.bicep' = {
+  name: 'serviceBus'
+  scope: rg
+  params: {
+    location: location
+    serviceBusNamespaceName: serviceBusNamespaceName
+  }
+}
 
 // Monitor application with Azure Monitor
 module monitoring './core/monitor/monitoring.bicep' = {
@@ -106,7 +106,6 @@ module flexConsumptionFunction 'core/host/flexconsumptionfunction.bicep' = {
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     storageAccountName: storageForFlexConsumptionFunction.outputs.name
     deploymentStorageContainerName: flexConsumptionDeploymentStorageContainerName
-    serviceBusNamespaceName: serviceBusNamespaceName // serviceBus.name
     functionAppRuntime: functionAppRuntime
     functionAppRuntimeVersion: functionAppRuntimeVersion
     maximumInstanceCount: maximumInstanceCount
@@ -123,7 +122,6 @@ module consumptionFunction 'core/host/consumptionfunction.bicep' = {
     planName: !empty(consumptionFunctionAppPlanName) ? consumptionFunctionAppPlanName : '${abbrs.webServerFarms}${resourceToken}'
     functionAppName: consumptionFunctionAppName
     applicationInsightsName: monitoring.outputs.applicationInsightsName
-    storageAccountName: storageForConsumptionFunction.outputs.name 
-    serviceBusNamespaceName: serviceBusNamespaceName 
+    storageAccountName: storageForConsumptionFunction.outputs.name
   }
 }

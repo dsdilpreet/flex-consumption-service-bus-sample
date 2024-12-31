@@ -4,7 +4,6 @@ param functionAppName string
 param planName string
 param applicationInsightsName string
 param storageAccountName string
-param serviceBusNamespaceName string
 
 var runtime = 'dotnet'
 var functionWorkerRuntime = runtime
@@ -16,10 +15,6 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' existing 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing = {
   name: applicationInsightsName
 }
-
-// resource serviceBusNamespace 'Microsoft.ServiceBus/namespaces@2024-01-01' existing = {
-//   name: serviceBusNamespaceName
-// }
 
 resource hostingPlan 'Microsoft.Web/serverfarms@2021-03-01' = {
   name: planName
@@ -70,10 +65,6 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: functionWorkerRuntime
         }
-        // {
-        //   name: 'ServiceBusConnectionString'
-        //   value: 'Endpoint=sb://${serviceBusNamespace.name}.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=${listKeys(serviceBusNamespace.id, '2017-04-01').primaryKey}'
-        // }
       ]
       ftpsState: 'FtpsOnly'
       minTlsVersion: '1.2'
